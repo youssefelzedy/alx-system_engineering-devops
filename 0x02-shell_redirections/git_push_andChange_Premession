@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "enter Your file name"
+read filename
+
+chmod u+x ${filename}
+
+echo "enter your commit"
+read commmit
+
+git add .
+git commit -m "${commmit}"
+git push origin main
