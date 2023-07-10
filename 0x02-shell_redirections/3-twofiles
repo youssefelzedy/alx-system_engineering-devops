@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo pr -m  /etc/passwd  /etc/hosts
+sudo pr -m -t /etc/passwd  /etc/hosts
