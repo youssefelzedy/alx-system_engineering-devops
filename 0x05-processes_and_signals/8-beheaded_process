@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#beheaded_process
+_bib() 
+{
+    echo 'Killed'
+}
+
+trap _bib SIGKILL
+
+while true; 
+do
+    echo "To infinity and beyond"
+    sleep 2
+done
