@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 #Process
 
-ps
+ps -u
