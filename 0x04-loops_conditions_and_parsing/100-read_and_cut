@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 # Read and cut
 
-cut -d ":" -f 1,3,6 /etc/passwd
+list="$(/etc/passwd)"
+while read -r LINE;
+do
+	echo "$LINE" | cut -d ":" -f 1,3,6 /etc/passwd
+done < /etc/passwd
