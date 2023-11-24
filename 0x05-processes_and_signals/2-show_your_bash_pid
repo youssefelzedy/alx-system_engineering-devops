@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#Process ID
+# shellcheck disable=SC2009
+
+ps u -eH | egrep 'bash'
