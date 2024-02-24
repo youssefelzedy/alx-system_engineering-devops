@@ -1,3 +1,6 @@
+# File: /etc/puppet/manifests/school.pp
+
+
 file { '/tmp/school':
   ensure  => file,
   owner   => 'www-data',
