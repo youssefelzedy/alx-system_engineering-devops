@@ -4,10 +4,10 @@
 for a given employee ID,
 returns information about his/her TODO list progress."""
 
-import urllib
+from json import load
 import requests
 from sys import argv
-from json import load
+
 
 
 if __name__ == "__main__":
@@ -15,6 +15,8 @@ if __name__ == "__main__":
     employee_id = argv[1]
     user = requests.get(url + "users/{}".format(employee_id)).json()
     todos = requests.get(url + "todos", params={"userId": employee_id}).json()
+    
+    
     completed = [task for task in todos if task.get("completed") is True]
 
     print("Employee {} is done with tasks({}/{}):".format(
