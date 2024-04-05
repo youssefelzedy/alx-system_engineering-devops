@@ -28,7 +28,8 @@ if __name__ == "__main__":
     tasks = make_request('todos', ('userId', argv[1]))
     tasks_completed = [task for task in tasks if task['completed']]
 
-    print("Employee {} is done with tasks({}/{}):".format(
-        user[0]['name'], len(tasks_completed), len(tasks)))
+    print('Employee {} is done with tasks({}/{}):'.format(user[0]['name'],
+                                                          len(tasks_completed),
+                                                          len(tasks)))
     for task in tasks_completed:
-        print("\t {}".format(task.get("title")))
+        print('\t {}'.format(task['title']))
