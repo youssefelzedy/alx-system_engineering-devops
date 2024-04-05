@@ -6,12 +6,13 @@ returns information about his/her TODO list progress."""
 
 import urllib
 import requests
-import sys
+from sys import argv
+from json import load
 
 
 if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/"
-    employee_id = sys.argv[1]
+    employee_id = argv[1]
     user = requests.get(url + "users/{}".format(employee_id)).json()
     todos = requests.get(url + "todos", params={"userId": employee_id}).json()
     completed = [task for task in todos if task.get("completed") is True]
