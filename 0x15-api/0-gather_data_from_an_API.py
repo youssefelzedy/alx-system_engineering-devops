@@ -9,17 +9,26 @@ import requests
 from sys import argv
 
 
-
 if __name__ == "__main__":
-    url = "https://jsonplaceholder.typicode.com/"
-    employee_id = argv[1]
-    user = requests.get(url + "users/{}".format(employee_id)).json()
-    todos = requests.get(url + "todos", params={"userId": employee_id}).json()
-    
-    
-    completed = [task for task in todos if task.get("completed") is True]
+
+    def make_request(resource, param=None):
+        """Retrieve user from API
+        """
+        url = 'https://jsonplaceholder.typicode.com/'
+        url += resource
+        if param:
+            url += ('?' + param[0] + '=' + param[1])
+
+        r = requests.get(url)
+
+        r = r.json()
+        return r
+
+    user = make_request('users', ('id', argv[1]))
+    tasks = make_request('todos', ('userId', argv[1]))
+    tasks_completed = [task for task in tasks if task['completed']]
 
     print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(completed), len(todos)))
-    for task in completed:
+        user[0]['name'], len(tasks_completed), len(tasks)))
+    for task in tasks_completed:
         print("\t {}".format(task.get("title")))
