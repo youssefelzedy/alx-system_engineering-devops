@@ -1,9 +1,5 @@
 #!/usr/bin/python3
-
-"""Write a Python script that, using this REST API,
-for a given employee ID,
-returns information about his/her TODO list progress."""
-
+"""Python script that, using a REST API"""
 import json
 from requests import get
 from sys import argv
@@ -11,20 +7,20 @@ from sys import argv
 
 if __name__ == "__main__":
 
-    res1 = get('https://jsonplaceholder.typicode.com/todos/')
-    json_data1 = res1.json()
-    usr_id = int(argv[1])
+    response1 = get('https://jsonplaceholder.typicode.com/todos/')
+    todo_data = response1.json()
+    user_id = int(argv[1])
 
-    res2 = get('https://jsonplaceholder.typicode.com/users')
-    json_data2 = res2.json()
-    name = [res for res in json_data2 if res["id"] == usr_id]
+    response2 = get('https://jsonplaceholder.typicode.com/users')
+    data2 = response2.json()
+    name = [res for res in data2 if res["id"] == user_id]
     name = name[0]["name"]
 
     todo_data_filtered_before = [
-        res for res in json_data1 if res["userId"] == usr_id]
+        res for res in todo_data if res["userId"] == user_id]
     todo_data_filtered_after = [
-        res for res in json_data1
-        if res["userId"] == usr_id and res["completed"]]
+        res for res in todo_data
+        if res["userId"] == user_id and res["completed"]]
 
     print(f"Employee {name} is done with tasks("
           f"{len(todo_data_filtered_after)}/"
