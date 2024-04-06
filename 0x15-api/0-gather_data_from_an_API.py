@@ -4,32 +4,31 @@
 for a given employee ID,
 returns information about his/her TODO list progress."""
 
-from json import load
-import requests
+import json
+from requests import get
 from sys import argv
 
 
 if __name__ == "__main__":
 
-    def make_request(resource, param=None):
-        """Retrieve user from API
-        """
-        url = 'https://jsonplaceholder.typicode.com/'
-        url += resource
-        if param:
-            url += ('?' + param[0] + '=' + param[1])
+    res1 = get('https://jsonplaceholder.typicode.com/todos/')
+    json_data1 = res1.json()
+    usr_id = int(argv[1])
+    
+    res2 = get('https://jsonplaceholder.typicode.com/users')
+    json_data2 = res2.json()
+    name = [res for res in json_data2 if res["id"] == usr_id]
+    name = name[0]["name"]
+    
+    todo_data_filtered_before = [
+        res for res in json_data1 if res["userId"] == usr_id]
+    todo_data_filtered_after = [
+        res for res in json_data1
+        if res["userId"] == usr_id and res["completed"]]
+    
+    print(f"Employee {name} is done with tasks("
+          f"{len(todo_data_filtered_after)}/"
+          f"{len(todo_data_filtered_before)}):")
 
-        r = requests.get(url)
-
-        r = r.json()
-        return r
-
-    user = make_request('users', ('id', argv[1]))
-    tasks = make_request('todos', ('userId', argv[1]))
-    tasks_completed = [task for task in tasks if task['completed']]
-
-    print('Employee {} is done with tasks({}/{}):'.format(user[0]['name'],
-                                                          len(tasks_completed),
-                                                          len(tasks)))
-    for task in tasks_completed:
-        print('\t {}'.format(task['title']))
+    for i in todo_data_filtered_after:
+        print("\t " + i["title"])
