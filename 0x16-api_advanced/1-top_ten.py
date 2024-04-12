@@ -1,26 +1,31 @@
 #!/usr/bin/python3
-""" How many subs? """
-import json
-import requests
-import sys
+"""
+Write a function that queries the Reddit API
+and prints the titles of the first 10 hot
+posts listed for a given subreddit.
+"""
 
 
 def top_ten(subreddit):
-    """return top 10 posts of a subreddit"""
-    list = []
-    try:
-        response = requests.get('https://www.reddit.com/r/{}/top.json?limit=10'
-                                .format(subreddit),
-                                headers={'User-agent': 'Mozilla/5.0'},
-                                allow_redirects=False)
-    except requests.exceptions.RequestException:
-        return 0
-    try:
-        data = response.json().get('data').get('children')
-        for i in data:
-            title = i.get('data').get('title')
-            list.append(title)
-    except (json.decoder.JSONDecodeError, AttributeError):
-        return 0
-    for i in list:
-        print(i)
+    '''Returns the number of subscribers for a given subreddit'''
+
+    import requests
+
+    if subreddit and type(subreddit) is str:
+        urls = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+        header = {
+            'User-Agent': 'Mozilla/5.0'
+        }
+        parms = {
+            'limit': 10
+        }
+
+        result_req = requests.get(urls, headers=header, allow_redirects=False)
+
+        if result_req.status_code == 200:
+            data = result_req.json()
+            posts = data.get('data', {}).get('children', {})
+            for post in posts:
+                print(post.get('data').get('title'))
+        else:
+            print(None)
